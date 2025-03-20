@@ -1,0 +1,47 @@
+--문자함수    
+-- 숫자함수  
+  round(), trunc()
+--날짜함수 
+--주의사항 : 큰날짜가 먼저와야 함
+select  months_between ('2023-09-01','2023-8-01') from dual; 
+select  next_day('2023-09-01', '월') from dual;  --오라클, 날짜를 기준으로 다음요일을 찾음 
+ 
+- 형변환함수 
+--to_char(   )   날짜를 원하는 형식의 문자로 표시할 때 사용
+select  to_char( sysdate, 'YYYY-MM-DD' ) from dual;
+select  to_char( sysdate, 'YY-MM-DD  dy' ) from dual;
+select  to_char( sysdate, 'YYYY-MM-DD  day' ) from dual;
+select  to_char( sysdate, 'YYYY-MM-DD  dy' ) from dual;
+select  to_char( sysdate, 'YYYY-MON-DD  dy' ) from dual;
+select  to_char( sysdate, 'YY-MM-DD  dy' ) from dual;
+select  to_char( sysdate, 'dd-mm-yyyy' ) from dual;
+select to_char( sysdate , 'yyyy"년"mm"일"dd"일"') from dual; 
+
+-- 숫자를 원하는 포멧을 이용해서 원하는 형태의 문자로 변환
+-- 주의사항 !!! 
+select to_char( 12345 , '99,999')  from dual;  
+select to_char( 12345 , '0999,999')  from dual;  -- 전체자리수에서 빈자리는 0으로 표시됨
+select to_char( 12345 , '$999,999')  from dual;  
+select to_char( 12345 , 'L999,999')  from dual;  
+select to_char( 12345 , 'L999,999.99')  from dual;   -- 소수이하 2자리
+select to_char(12345, '9,999') from dual;  -- 자리부족하면 ###으로  표시됨
+
+
+--to_number()  숫자로 바꿔줌
+
+select to_number('3') +3  from dual;  --명시적형변환
+select '3'+3  from dual;   -- 묵시적형변환
+select to_number('1234.99')    from dual;  --명시적형변환
+--묵시적으로 형변환이 되는 경우들이 있다.
+
+
+--to_date() 날짜로 변경
+( 문자타입으로 된 날짜를 -> 날짜type으로 변환하는 함수)
+ 
+select to_date( '2002-10-01' )  from  dual;
+select to_date('20230818','YYYY-MM-DD') from dual;
+
+
+dual테이블
+-- 실제 데이터가 저장되는 것이 아니라, 단일 행과 단일 열을 가진 가상의 테이블입니다.
+-- 주로 SQL 문장을 테스트하거나 단일 값을 조회할 때 사용 .
