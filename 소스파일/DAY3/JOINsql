@@ -1,0 +1,316 @@
+create table tbl_test_customer(
+    id varchar2(20) not null primary key ,
+    name varchar2(20) ,
+    address varchar2(20),
+    tel varchar2(20)
+);
+
+create table tbl_test_goods(
+  pcode varchar2(20) not null primary key,
+  pname varchar(20) ,
+  price number(4)
+);
+
+create table tbl_test_order(
+  ocode varchar2(20) not null primary key,
+  odate date,
+  id varchar2(20),
+ pcode varchar2(20),
+ sale_cnt number(6)
+);
+
+
+
+insert into tbl_test_customer values( 'H001' ,'권지언', '라스베가스', '010-3030-2222');
+insert into tbl_test_customer values( 'H002' ,'이동우', 'L.A', '010-2424-2222');
+insert into tbl_test_customer values( 'H003' ,'오윤석', '워싱턴D.C', '010-1010-2121');
+insert into tbl_test_customer values( 'H004' ,'윤현기', '뉴욕', '010-3333-2222');
+insert into tbl_test_customer values( 'H005' ,'임형택', '텍사스', '010-9090-2222');
+insert into tbl_test_customer values( 'H006' ,'김민환', '서울', '010-7878-1234');
+insert into tbl_test_customer values( 'H007' ,'이수민', '부천', '010-8383-8383');
+
+ 
+
+
+insert into tbl_test_goods values('P001' ,'쫀드기', 1000);
+insert into tbl_test_goods values('P002' ,'눈깔사탕', 100);
+insert into tbl_test_goods values('P003' ,'아폴로', 200);
+insert into tbl_test_goods values('P004' ,'뻥튀기', 2000);
+
+
+
+insert into tbl_test_order values('J001' , '20210110' , 'H001', 'P001', 2);
+insert into tbl_test_order values('J002' , '20210110' , 'H002', 'P002', 5);
+insert into tbl_test_order values('J003' , '20210110' , 'H003', 'P003', 2);
+insert into tbl_test_order values('J004' , '20210110' , 'H004', 'P004', 1);
+insert into tbl_test_order values('J005' , '20210110' , 'H005', 'P002', 3);
+insert into tbl_test_order values('J006' , '20210110' , 'H001', 'P002', 3);
+insert into tbl_test_order values('J007' , '20210110' , 'H002', 'P001', 1);
+insert into tbl_test_order values('J008' , '20210110' , 'H001', 'P002', 4);
+ 
+
+
+
+// sql  조인 표준 
+
+SELECT  name, address, tel, odate, pname, sale_cnt, price, sale_cnt * price
+FROM   tbl_test_order o
+JOIN     tbl_test_customer c
+ON       o.id = c.id
+JOIN     tbl_test_goods g
+ON       o.pcode = g.pcode ;
+
+
+
+
+SELECT   *
+FROM   tbl_test_order o
+JOIN     tbl_test_customer c
+ON       o.id = c.id;
+ 
+
+
+SELECT   *
+FROM   tbl_test_order o
+JOIN     tbl_test_customer c
+ON       o.id = c.id
+JOIN     tbl_test_goods g
+ON       o.pcode = g.pcode ;
+
+commit;
+
+SELECT  * FROM   tbl_test_customer ;
+SELECT * FROM    tbl_test_goods ;
+SELECT * FROM   tbl_test_order;
+ 
+--원하는 정보가 한 개의 테이블에 존재하지 않으면
+--조인해야함
+
+--표준요인
+-- 주문테이블, 상품테이블
+SELECT * 
+FROM tbl_test_order O
+JOIN tbl_test_goods G
+ON O.PCODE = G.PCODE;
+
+SELECT * 
+FROM tbl_test_order O
+JOIN tbl_test_goods G
+ON O.PCODE = G.PCODE
+JOIN tbl_test_customer C
+ON c.id = O.ID;
+
+SELECT C.NAME, G.PNAME, o.sale_cnt, g.price
+FROM tbl_test_order O
+JOIN tbl_test_goods G
+ON O.PCODE = G.PCODE
+JOIN tbl_test_customer C
+ON c.id = O.ID;
+
+
+--EQUI 조인
+--INNER 조인
+
+--
+
+SELECT *
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID;
+
+SELECT C.NAME, o.sale_cnt
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID;
+
+-- 고객별 판매수량의 합계
+
+SELECT C.NAME, SUM(o.sale_cnt)
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID
+GROUP BY C.NAME;
+
+--정렬하기
+SELECT C.NAME, SUM(o.sale_cnt)||'개' AS TOTAL_CNT
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID
+GROUP BY C.NAME
+ORDER BY 2 DESC;
+
+--주문현황 조회
+SELECT  * FROM   tbl_test_customer ;
+SELECT * FROM    tbl_test_goods ;
+SELECT * FROM   tbl_test_order;
+
+
+--EQUI 조인 ON 절에서 같은거 찾는 조인 조건
+--INNER :
+
+-- 내부조인 INNER 조인( 두 테이블에 모두 존재하는 경우만 결과에 나옴)
+SELECT C.NAME, SUM(o.sale_cnt)
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID
+GROUP BY C.NAME;
+
+
+--INNER 조인( 기본 )
+--OUTER 조인
+
+-- INNER JOIN : => 양쪽에 모두 있는 것만 조회함
+SELECT *
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID;
+
+SELECT o.odate, c.name, o.sale_cnt
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID;
+
+SELECT o.sale_cnt
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID;
+
+--전체합계
+
+SELECT SUM(o.sale_cnt)
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID;
+
+--고객별 판매수량의 합계
+
+SELECT c.name, o.sale_cnt
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID;
+
+SELECT c.name, SUM( o.sale_cnt)
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID
+GROUP BY c.name;
+
+--주문현황
+--주문, 고객, 상품
+
+SELECT *
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID;
+
+SELECT C.NAME, o.sale_cnt
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID;
+
+
+SELECT *
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID
+JOIN tbl_test_goods G
+ON o.pcode = g.pcode;
+
+SELECT o.odate, c.name, g.pname, g.price, o.sale_cnt, o.sale_cnt*G.PRICE
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID
+JOIN tbl_test_goods G
+ON o.pcode = g.pcode;
+
+SELECT o.odate, 
+    c.name,
+    g.pname, 
+    g.price, 
+    o.sale_cnt, 
+TO_CHAR( o.sale_cnt*G.PRICE,'999,999') AS "AMOUNT"
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID
+JOIN tbl_test_goods G
+ON o.pcode = g.pcode;
+
+SELECT 
+    c.name,
+    SUM(o.sale_cnt*G.PRICE)
+FROM tbl_test_order O
+JOIN tbl_test_customer C
+ON O.ID = C.ID
+JOIN tbl_test_goods G
+ON o.pcode = g.pcode
+GROUP BY c.name;
+
+SELECT  * FROM   tbl_test_customer ;
+SELECT * FROM    tbl_test_goods ;
+SELECT * FROM   tbl_test_order;
+
+SELECT o.pcode,SUM(o.sale_cnt)
+FROM TBL_TEST_ORDER O
+JOIN TBL_TEST_CUSTOMER C
+ON O.ID = C.ID
+GROUP BY O.PCODE;
+
+--231 1번
+SELECT * FROM EMP;
+SELECT * FROM DEPT;
+
+SELECT EMPNO, ENAME, DNAME
+FROM EMP E
+JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+
+--231 2번
+SELECT * FROM STUDENT;
+SELECT * FROM PROFESSOR;
+
+SELECT S.NAME AS STU_NAME, P.NAME AS PROF_NAME
+FROM STUDENT S
+JOIN PROFESSOR P
+ON S.PROFNO = p.profno;
+
+--3번
+SELECT * FROM STUDENT;
+SELECT * FROM PROFESSOR;
+SELECT * FROM DEPARTMENT;
+
+SELECT S.NAME AS STU_NAME, D.DNAME AS DEPT_NAME, P.NAME AS PROF_NAME
+FROM STUDENT S
+JOIN PROFESSOR P
+ON S.PROFNO = p.profno
+JOIN department D
+ON S.DEPTNO1 = D.DEPTNO;
+
+--4번
+SELECT * FROM STUDENT;
+SELECT * FROM PROFESSOR;
+
+SELECT S.NAME AS STU_NAME,P.NAME AS PROF_NAME
+FROM STUDENT S
+JOIN PROFESSOR P
+ON S.PROFNO = p.profno
+WHERE DEPTNO1='101';
+
+
+
+--OUTER JOIN 
+--조인시 일치하지 않은 것도 함께 조회함
+
+
+SELECT  C.NAME,  O.SALE_CNT
+FROM tbl_test_order O
+RIGHT OUTER JOIN tbl_test_customer C 
+ON  O.ID  = C.ID ;
+
+
+SELECT  C.NAME,  NVL( O.SALE_CNT ,0)
+FROM tbl_test_order O
+RIGHT OUTER JOIN tbl_test_customer C 
+ON  O.ID  = C.ID ;
+
+
+

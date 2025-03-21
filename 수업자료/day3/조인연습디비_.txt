@@ -1,0 +1,80 @@
+create table tbl_test_customer(
+    id varchar2(20) not null primary key ,
+    name varchar2(20) ,
+    address varchar2(20),
+    tel varchar2(20)
+);
+
+create table tbl_test_goods(
+  pcode varchar2(20) not null primary key,
+  pname varchar(20) ,
+  price number(4)
+);
+
+create table tbl_test_order(
+  ocode varchar2(20) not null primary key,
+  odate date,
+  id varchar2(20),
+ pcode varchar2(20),
+ sale_cnt number(6)
+);
+
+
+
+insert into tbl_test_customer values( 'H001' ,'권지언', '라스베가스', '010-3030-2222');
+insert into tbl_test_customer values( 'H002' ,'이동우', 'L.A', '010-2424-2222');
+insert into tbl_test_customer values( 'H003' ,'오윤석', '워싱턴D.C', '010-1010-2121');
+insert into tbl_test_customer values( 'H004' ,'윤현기', '뉴욕', '010-3333-2222');
+insert into tbl_test_customer values( 'H005' ,'임형택', '텍사스', '010-9090-2222');
+insert into tbl_test_customer values( 'H006' ,'김민환', '서울', '010-7878-1234');
+
+
+ 
+
+
+insert into tbl_test_goods values('P001' ,'쫀드기', 1000);
+insert into tbl_test_goods values('P002' ,'눈깔사탕', 100);
+insert into tbl_test_goods values('P003' ,'아폴로', 200);
+insert into tbl_test_goods values('P004' ,'뻥튀기', 2000);
+
+
+
+insert into tbl_test_order values('J001' , '20210110' , 'H001', 'P001', 2);
+insert into tbl_test_order values('J002' , '20210110' , 'H002', 'P002', 5);
+insert into tbl_test_order values('J003' , '20210110' , 'H003', 'P003', 2);
+insert into tbl_test_order values('J004' , '20210110' , 'H004', 'P004', 1);
+insert into tbl_test_order values('J005' , '20210110' , 'H005', 'P002', 3);
+insert into tbl_test_order values('J006' , '20210110' , 'H001', 'P002', 3);
+insert into tbl_test_order values('J007' , '20210110' , 'H002', 'P001', 1);
+insert into tbl_test_order values('J008' , '20210110' , 'H001', 'P002', 4);
+ 
+
+
+ 
+
+// sql  조인 표준 
+
+SELECT  name, address, tel, odate, pname, sale_cnt, price, sale_cnt * price
+FROM   tbl_test_order o
+JOIN     tbl_test_customer c
+ON       o.id = c.id
+JOIN     tbl_test_goods g
+ON       o.pcode = g.pcode ;
+
+
+
+
+SELECT   *
+FROM   tbl_test_order o
+JOIN     tbl_test_customer c
+ON       o.id = c.id;
+ 
+
+
+SELECT   *
+FROM   tbl_test_order o
+JOIN     tbl_test_customer c
+ON       o.id = c.id
+JOIN     tbl_test_goods g
+ON       o.pcode = g.pcode ;
+

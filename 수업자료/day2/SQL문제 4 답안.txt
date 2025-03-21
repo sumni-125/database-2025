@@ -1,0 +1,84 @@
+1. select count(*) from stud_score;
+2 .
+   select count(music_score)
+   from stud_score;
+3. SELECT sum(math_score) FROM STUD_SCORE;
+
+4.  SELECT AVG(music_score) FROM STUD_SCORE;
+5.  SELECT MAX(MATH_SCORE), MIN( MATH_SCORE) FROM STUD_SCORE ;
+
+6.
+SELECT  JOB , CASE
+     WHEN JOB='CLERK' THEN CURRENT_SAL*1.07    // CURRENT_SAL +  ( CURRENT_SAL * 0.07)
+     WHEN JOB='OFFICER' THEN CURRENT_SAL*1.05
+     WHEN JOB='MANAGER' THEN CURRENT_SAL*1.03
+     ELSE CURRENT_SAL*1.00
+     END AS NEXT_SAL
+FROM STAFF_SAL;
+
+// 여러개 일 때 하나만 테스트하고 작업하세요
+SELECT  JOB , CASE
+     WHEN JOB='CLERK' THEN CURRENT_SAL*1.07    // CURRENT_SAL +  ( CURRENT_SAL * 0.07)     
+     END AS NEXT_SAL
+FROM STAFF_SAL;
+
+그룹화문제1
+
+SELECT SET2, ROUND(AVG(ANNL_REV),1) FROM PRC GROUP BY SET2;
+SELECT SET2, COUNT(SET2) FROM PRC GROUP BY SET2;
+
+//정렬 추가
+SELECT SET2,  AVG(ANNL_REV) 
+FROM PRC GROUP BY SET2
+ORDER BY  AVG(ANNL_REV)  DESC   ;
+
+
+SELECT SET2,  AVG(ANNL_REV)  AS AVG
+FROM PRC GROUP BY SET2
+ORDER BY AVG DESC ;
+
+그룹화문제2  (HAVING 사용하기)
+
+1.
+SELECT cust_nm, COUNT(cust_nm) 
+FROM prod_sales 
+GROUP BY cust_nm ;
+
+SELECT cust_nm, COUNT(cust_nm) 
+FROM prod_sales 
+GROUP BY cust_nm 
+HAVING COUNT(cust_nm)>=2;
+
+
+SELECT cust_nm, COUNT(*) AS CNT
+FROM prod_sales 
+GROUP BY cust_nm 
+HAVING COUNT(*)>=2 
+ORDER BY CNT;
+
+2.
+SELECT cust_nm, SUM(sales_amt) AS SUM 
+FROM prod_sales 
+GROUP BY cust_nm ; 
+
+
+SELECT cust_nm, SUM(sales_amt) AS SUM 
+FROM prod_sales 
+GROUP BY cust_nm 
+HAVING SUM(sales_amt)>=70000 ;
+ 
+
+SELECT cust_nm, SUM(sales_amt) AS SUM 
+FROM prod_sales 
+GROUP BY cust_nm 
+HAVING SUM(sales_amt)>=70000
+ORDER BY SUM;
+
+
+SELECT cust_nm, TO_CHAR(SUM(sales_amt), 'L999,999') AS SUM 
+FROM prod_sales 
+GROUP BY cust_nm 
+HAVING SUM(sales_amt)>=70000
+ORDER BY SUM;
+
+
