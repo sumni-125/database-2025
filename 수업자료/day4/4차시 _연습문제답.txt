@@ -1,0 +1,86 @@
+
+
+-- 부서별 합계
+-- 전체 합계
+--4번답
+
+INSERT INTO EMP( EMPNO, DEPTNO, ENAME, SAL)  VALUES (1000, 10,'Tiger', 3600);
+INSERT INTO EMP( EMPNO, DEPTNO, ENAME, SAL)  VALUES (2000, 10,'Cat', 3000);
+
+COMMIT;
+
+
+select  deptno, sum(decode( job,  'CLERK', sal,0))  "CLERK" ,
+         sum(decode( job,  'MANAGER', sal,0))  "MANAGER"  ,
+sum(decode( job,  'PRESIDENT', sal,0))  "PRESIDENT"  ,
+sum(decode( job,  'ANALYST', sal,0))  "ANALYST"   ,
+sum(decode( job,  'SALESMAN', sal,0))  "SALESMAN" , 
+sum(  nvl( sal ,0))  "total" 
+from emp
+group by  cube(deptno)
+order by 1;
+
+
+
+--5번
+
+
+SELECT * FROM EMP;
+
+SELECT DEPTNO , ENAME, SAL,  SUM(SAL) OVER( ORDER BY SAL)
+FROM EMP;
+
+
+
+--7  --
+
+SELECT  TEL FROM STUDENT;
+SELECT  SUBSTR( TEL, 1, INSTR(TEL,')' ) -1 ) FROM STUDENT;
+SELECT
+   DECODE(  SUBSTR( TEL, 1, INSTR(TEL,')' ) -1 ) ,  '02', 1)   "SEOUL" ,
+   DECODE(  SUBSTR( TEL, 1, INSTR(TEL,')' ) -1 ) ,  '031', 1)  "GYEONGGI"
+FROM STUDENT;
+
+
+
+SELECT
+    COUNT( DECODE(  SUBSTR( TEL, 1, INSTR(TEL,')' ) -1 ) ,  '02', 1))  || 'EA ('||
+    COUNT( DECODE(  SUBSTR( TEL, 1, INSTR(TEL,')' ) -1 ) ,  '02', 1)) / COUNT(TEL)  *100  ||  '%)' "SEOUL" ,
+    COUNT(DECODE(  SUBSTR( TEL, 1, INSTR(TEL,')' ) -1 ) ,  '031', 1))  || 'EA (' || 
+    COUNT(DECODE(  SUBSTR( TEL, 1, INSTR(TEL,')' ) -1 ) ,  '031', 1) )  / COUNT(TEL) *100  ||  '%)' "GYEONGGI"
+FROM STUDENT;
+
+
+
+
+
+--8번
+SELECT * FROM EMP;
+
+
+SELECT DEPTNO, ENAME, SAL, SUM(SAL) OVER( PARTITION BY  DEPTNO ORDER BY SAL)
+FROM EMP;
+
+
+
+
+
+
+
+--연습문제 9번
+
+select * from emp;
+select deptno, ename,  sal,  sum(sal) over() from emp;
+
+
+select deptno, ename,  sal,  sum(sal) over()  , sal/ sum(sal) over()   from emp;
+
+
+-- ratio_to_report 사용
+select deptno, ename,  sal,  sum(sal) over()  , ratio_to_report( sal) over()  from emp;
+
+
+select deptno, ename,  sal,  sum(sal) over()  , 
+ROUND(ratio_to_report(   SAL  ) over(    )    *100  ,2)  AS "%" 
+from emp
+ORDER BY 5 DESC;
