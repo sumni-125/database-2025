@@ -1,0 +1,296 @@
+CREATE TABLE  t_emp(
+ eid VARCHAR2(13) NOT NULL PRIMARY KEY ,
+ ename VARCHAR2(20) ,
+ salary   NUMBER(5)   ,         
+ deptno NUMBER(5)   ,
+ comm NUMBER(5) 
+ );
+ COMMIT;
+
+
+
+
+INSERT INTO  t_emp VALUES ('e001' , '신동엽' , 280,10,100) ;
+ INSERT INTO  t_emp VALUES ('e002' , '유재석' , 250,20,50) ;
+ INSERT INTO  t_emp VALUES ('e003' , '전현무' , 190,30,0) ;
+ INSERT INTO  t_emp VALUES ('e004' , '양세영' , 300,20,0) ;
+ INSERT INTO  t_emp VALUES ('e005' , '양세찬' , 290,40,100) ;
+ CREATE TABLE  t_dept(
+ deptno
+ NUMBER(5) NOT NULL PRIMARY KEY ,
+ dname VARCHAR2(20) 
+ );
+ COMMIT;
+  
+INSERT INTO  t_dept VALUES (10 , '영업팀') ;
+ INSERT INTO  t_dept VALUES (20 , '기획팀') ;
+ INSERT INTO  t_dept VALUES (30 , '관리팀') ;
+ INSERT INTO  t_dept VALUES (40 , '마케팅팀') ;
+ INSERT INTO  t_dept VALUES (50 , '재무팀') ;
+ 
+ SELECT * FROM T_EMP;
+ SELECT * FROM T_DEPT;
+ 
+ 
+ --뷰만들기
+ CREATE VIEW V_EMP
+ AS
+    SELECT ENAME, DEPTNO
+    FROM T_EMP;
+    
+ SELECT * FROM V_EMP;
+ 
+ 
+ SELECT * 
+ FROM tbl_test_order O
+ JOIN tbl_test_goods G
+ ON O.PCODE = G.PCODE;
+ 
+ SELECT o.odate, g.pname, o.sale_cnt, g.price
+ FROM tbl_test_order O
+ JOIN tbl_test_goods G
+ ON O.PCODE = G.PCODE;
+ 
+ --뷰만들기
+ CREATE VIEW V_ORDER_TEST
+ AS
+  SELECT o.odate, g.pname, o.sale_cnt, g.price
+ FROM tbl_test_order O
+ JOIN tbl_test_goods G
+ ON O.PCODE = G.PCODE;
+ 
+ SELECT * FROM v_order_test;
+ 
+ SELECT * FROM v_order_test
+ WHERE sale_cnt>=4;
+ 
+ --뷰의 종류
+ --단순뷰 ( 한개의 테이블로 뷰 만들기 )
+ --복합뷰 ( 조인테이블로 뷰 만들기 )
+ --인라인 뷰 --> 서브쿼리의 종류
+ 
+ --TBL_TEST_ORDER
+ --TBL_TEST_GOODS
+ --TBL_TEST_CUSTOMER
+ 
+ SELECT * FROM TBL_TEST_CUSTOMER;
+ 
+ --인라인뷰 경험하기
+ -- 고객별 판매수량 합계 구하기
+ 
+ -- 1) 고객별 판매수량의 합계 구하기
+ -- 2) 고객 테이블과 조인하여 결과 만들기
+ 
+ SELECT * FROM TBL_TEST_ORDER;
+ 
+ 
+ SELECT ID, SALE_CNT FROM TBL_TEST_ORDER;
+ 
+ --
+ 
+ SELECT ID, SUM(SALE_CNT)
+ FROM TBL_TEST_ORDER
+ GROUP BY ID;
+ 
+ SELECT * 
+ FROM (SELECT ID, SUM(SALE_CNT)CNT
+     FROM TBL_TEST_ORDER
+     GROUP BY ID
+     ) A
+ JOIN tbl_test_customer C
+ ON A.ID = C.ID;
+ 
+ 
+ SELECT C.NAME, A.CNT
+ FROM (SELECT ID, SUM(SALE_CNT) CNT
+     FROM TBL_TEST_ORDER
+     GROUP BY ID
+     ) A
+ JOIN tbl_test_customer C
+ ON A.ID = C.ID;
+ 
+ --서브쿼리 : 하나의 쿼리 안에 또다른 쿼리가 있는 것을 서브쿼리라고 한다
+ 
+ --뷰만들기
+ --CREATE VIEW 뷰이름
+ --AS
+ --SELECT절
+ --(테이블 한개 - 단순뷰)
+ --(테이블 여러개 - 복합뷰)
+ --FROM절 뒤에 서브쿼리 ()가 인라인 뷰라고 한다.
+ 
+ --서브쿼리
+ 
+ SELECT * FROM T_EMP;
+ 
+ --신동엽 사원보다 급여가 더 많은 사원이름, 급여, 상여금 조회하시오
+ 
+ SELECT SALARY FROM T_EMP WHERE ENAME='신동엽';
+ 
+ SELECT * FROM T_EMP
+ WHERE SALARY >280;
+ 
+ 
+ SELECT * FROM T_EMP
+ WHERE SALARY > (SELECT SALARY FROM T_EMP WHERE ENAME='신동엽');
+ 
+ -- 다중행 서브쿼리
+ SELECT * FROM T_EMP;
+ SELECT * FROM T_DEPT;
+ 
+ 
+ --IN
+ SELECT * FROM T_EMP
+ WHERE SALARY IN ( SELECT SALARY FROM T_EMP WHERE SALARY>=280);
+ 
+ 
+ SELECT * FROM T_EMP
+ WHERE SALARY IN( 280, 300, 290);
+ 
+ 
+ -->ANY <ANY : 서브쿼리 목록중에 한개라도 만족하는 것이 있어야 함
+ -->ALL <ALL : 서브쿼리의 모든 행을 다 만족해야 함
+ 
+ --ANY : 서브쿼리의 여러 행의 값에 하나라도 만족하면 됨
+ SELECT * FROM T_EMP
+ WHERE SALARY >= ANY ( SELECT SALARY FROM T_EMP WHERE SALARY>=280);
+ 
+ -- ALL : 서브쿼리의 여러 행의 값에 모두 만족하면 됨
+ SELECT * FROM T_EMP
+ WHERE SALARY >= ALL ( SELECT SALARY FROM T_EMP WHERE SALARY>=280);
+ 
+ 
+ --EXISTS
+ --서브쿼리가 존재하면 메인쿼리를 실행한다,  서브쿼리의 결과가 존재하지 않으면 실행되지 않는다.
+ --조건문느낌
+ SELECT * FROM T_EMP
+ WHERE EXISTS( SELECT DEPTNO FROM T_DEPT WHERE DEPTNO=50 );
+ 
+ --다중컬럼 ( 같은 조건만 비교 가능 )
+ 
+ SELECT GRADE, WEIGHT FROM STUDENT;
+ SELECT GRADE, MAX(WEIGHT)
+ FROM STUDENT
+ GROUP BY GRADE;
+ 
+ SELECT GRADE, NAME, WEIGHT
+ FROM STUDENT
+ WHERE (GRADE, WEIGHT) IN (
+         SELECT GRADE, MAX(WEIGHT)
+         FROM STUDENT
+         GROUP BY GRADE);
+ 
+ --FROM절 뒤에 오는 서브쿼리(인라인뷰 서브쿼리라고 함), 하나의 뷰가 만들어짐
+ 
+ --쿼리가 복잡해질 때 뷰를 사용하거나
+ --FROM 절에 서브쿼리로 사용할 수 있다( 인라인 뷰라고 함
+ 
+ --고객별 판매수량의 합계
+ --EX) 권지언 9
+ 
+ --1. 고객별 판매수량의 합계 구하기
+ --2. 1.의 쿼리결과와 고객테이블을 조인해서 전체 쿼리를 완성
+ 
+ SELECT ID, SALE_CNT FROM TBL_TEST_ORDER;
+ 
+ 
+ SELECT *
+ FROM(
+ SELECT ID, SUM(SALE_CNT) CNT
+ FROM TBL_TEST_ORDER
+ GROUP BY ID) A
+ JOIN tbl_test_customer C
+ ON A.ID = C.ID
+ ;
+ 
+ SELECT A.ID, C.NAME, A.CNT
+ FROM(
+ SELECT ID, SUM(SALE_CNT) CNT
+ FROM TBL_TEST_ORDER
+ GROUP BY ID) A
+ JOIN tbl_test_customer C
+ ON A.ID = C.ID
+ ;
+ 
+ 
+ --서브쿼리
+ --연관쿼리      : 서브쿼리에서 메인쿼리의 내용을 사용하는 쿼리
+ --비연관쿼리    : 서브쿼리에서메인쿼리의 내용을 사용안함
+ 
+ INSERT INTO t_emp VALUES ('e006' , '이정호' , 290,10,100) ;
+ INSERT INTO t_emp VALUES ('e007' , '김민환' , 260,20,50) ;
+ INSERT INTO t_emp VALUES ('e008' , '김유민' , 200,30,0) ;
+ INSERT INTO t_emp VALUES ('e009' , '박수경' , 310,20,0) ;
+  
+ COMMIT;
+ 
+ SELECT * FROM T_EMP;
+ 
+ --비연관쿼리
+ --평균SALARY보다 많이 받는사람 조회하기
+ 
+ SELECT * 
+ FROM T_EMP
+ WHERE SALARY>=(
+     SELECT AVG(SALARY) FROM T_EMP
+     
+ );
+ 
+ -- 연관서브쿼리
+ -- 자신이 속한 부서의 평균
+ SELECT *
+ FROM T_EMP E
+ WHERE SALARY = (SELECT MAX(SALARY) FROM T_EMP TE WHERE E.DEPTNO = TE.DEPTNO);
+ 
+ 
+ --자신이 속한 부서의 가장 높은 연봉조회하기   (메인쿼리의 사원의 부서정보를 서브쿼리에서 사용해야 한다)
+ --연관서브쿼리란 :  서브쿼리에서 메인쿼리의 컬럼값을 사용하는 경우를 말한다 
+ 
+ -- 자신이 속한 부서의 가장많은 급여 사람 
+ SELECT  *
+ FROM    T_EMP E
+ WHERE   SALARY  = ( SELECT MAX(SALARY)  FROM T_EMP TE  WHERE E.DEPTNO  = TE.DEPTNO );
+ 
+ 
+ -- 자신이 속한 부서의 평균 급여보다 많이 받는 사람 
+ SELECT  *
+ FROM    T_EMP E
+ WHERE   SALARY  >= ( SELECT AVG(SALARY)  FROM T_EMP TE  WHERE E.DEPTNO  = TE.DEPTNO );
+ 
+ 
+ --SQL >> DDL, DML, DCL
+ --DML  (데이터 조작언어)
+ --SELECT (READ)
+ --INSERT (CREATE)
+ --UPDATE (UPDATE)
+ --DELETE (DELETE)
+ 
+ 
+ SELECT * FROM ACORNTBL2;
+ 
+ --홍길동
+ INSERT INTO ACORNTBL2(ID, PW, NAME, POINT) VALUES('hong','1234','홍길동',100);
+ INSERT INTO ACORNTBL2 VALUES('hong2', '5678','홍길순',200);
+ 
+ COMMIT;
+ 
+ --변경하기 UPDATE로 변경하기 - WHERE절 없으면 모든 행이 변경됨, WHERE절 확인하기
+ UPDATE ACORNTBL2
+ SET POINT = POINT+1000
+ WHERE ID = 'umin';
+ 
+ --비밀번호
+ --
+ UPDATE ACORNTBL2
+ SET PW = '0409'
+ WHERE ID = 'che';
+ 
+ --여러개 변경
+  UPDATE ACORNTBL2
+ SET PW = '0448',
+ POINT = 5000
+ WHERE ID = 'boseong00';
+ 
+ --데이터 삭제하기, WHERE절 주의
+ DELETE FROM ACORNTBL2
+ WHERE ID = 'hong' OR ID = 'hong2'
