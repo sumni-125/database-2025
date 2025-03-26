@@ -1,0 +1,213 @@
+create table tbl_court_202301(
+ court_no varchar2(4) not null primary key,
+ use char(1)
+ );
+ 
+ insert into tbl_court_202301 values('C001','N');
+ insert into tbl_court_202301 values('C002','N');
+ insert into tbl_court_202301 values('C003','N');
+ insert into tbl_court_202301 values('C004','N');
+ insert into tbl_court_202301 values('C005','N');
+ insert into tbl_court_202301 values('C006','N');
+ insert into tbl_court_202301 values('C007','N');
+ insert into tbl_court_202301 values('C008','N');
+ insert into tbl_court_202301 values('C009','N');
+ 
+ create table tbl_resv_202301(
+ resv_no char(8) not null primary key,
+ resv_date char(8),
+ cust_no varchar2(4),
+ court_no varchar2(4)
+ );
+ 
+ insert into tbl_resv_202301 values('20230001','20230221','1001','C005');
+ insert into tbl_resv_202301 values('20230002','20230221','1002','C004');
+ insert into tbl_resv_202301 values('20230003','20230221','1003','C003');
+ insert into tbl_resv_202301 values('20230004','20230221','1004','C002');
+ insert into tbl_resv_202301 values('20230005','20230221','1005','C001');
+ insert into tbl_resv_202301 values('20230006','20230221','1005','C001');
+ insert into tbl_resv_202301 values('20230007','20230221','1005','C001');
+ 
+ create table tbl_cust_202301(
+ cust_no varchar2(4) not null primary key,
+ cust_name varchar2(10),
+ tel varchar2(11)
+ );
+ 
+ insert into tbl_cust_202301 values('1001','김선수','01011112222');
+ insert into tbl_cust_202301 values('1002','이선수','01011113333');
+ insert into tbl_cust_202301 values('1003','박선수','01011114444');
+ insert into tbl_cust_202301 values('1004','한선수','01011115555');
+ insert into tbl_cust_202301 values('1005','채선수','01011116666');
+COMMIT;
+
+
+
+
+
+--P239 사용 예2
+SELECT * FROM STUDENT;
+SELECT * FROM hakjum;
+SELECT * FROM SCORE;
+
+SELECT * 
+FROM STUDENT ST
+JOIN SCORE SC
+ON st.studno = SC.STUDNO;
+
+SELECT st.name, SC.TOTAL
+FROM STUDENT ST
+JOIN SCORE SC
+ON st.studno = SC.STUDNO;
+
+SELECT st.name, SC.TOTAL, H.GRADE
+FROM STUDENT ST
+JOIN SCORE SC
+ON st.studno = SC.STUDNO
+JOIN hakjum H
+ON SC.TOTAL>=h.min_point AND SC.TOTAL<=H.MAX_POINT
+ORDER BY 2 ASC;
+
+
+--P241 사용 예1 
+SELECT * FROM STUDENT;
+SELECT * FROM PROFESSOR;
+
+SELECT *
+FROM STUDENT S 
+LEFT OUTER JOIN PROFESSOR P
+ON S.PROFNO = p.profno;
+
+SELECT S.NAME STU_NAME, P.NAME PROF_NAME
+FROM STUDENT S 
+LEFT OUTER JOIN PROFESSOR P
+ON S.PROFNO = p.profno;
+
+
+--P243 사용 예2
+
+SELECT * 
+FROM STUDENT S
+RIGHT OUTER JOIN PROFESSOR P
+ON s.profno = p.profno;
+
+SELECT S.NAME STU_NAME, P.NAME PROF_NAME
+FROM STUDENT S
+RIGHT OUTER JOIN PROFESSOR P
+ON s.profno = p.profno;
+
+SELECT S.NAME STU_NAME, P.NAME PROF_NAME
+FROM STUDENT S
+RIGHT OUTER JOIN PROFESSOR P
+ON s.profno = p.profno
+ORDER BY STU_NAME;
+
+
+
+--배드민턴예약프로그램
+--문제조회만들기
+
+SELECT * FROM TBL_CUST_202301;
+SELECT * FROM tbl_resv_202301;
+SELECT * FROM tbl_court_202301;
+
+SELECT * 
+FROM tbl_cust_202301 C
+JOIN tbl_resv_202301 R
+ON C.CUST_NO = r.cust_no;
+
+SELECT C.CUST_NO 고객번호, C.CUST_NAME 이름, COUNT(R.CUST_NO) 사용일수
+FROM tbl_cust_202301 C
+JOIN tbl_resv_202301 R
+ON C.CUST_NO = r.cust_no
+GROUP BY C.CUST_NO,C.CUST_NAME;
+
+--
+
+SELECT R.RESV_NO 예약번호, C.CUST_NAME 이름, r.resv_date "코트 사용 일자", r.court_no 코트번호
+FROM tbl_cust_202301 C
+JOIN tbl_resv_202301 R
+ON C.CUST_NO = r.cust_no
+WHERE R.RESV_NO = 20230001;
+
+
+
+
+--P254 1번
+SELECT * FROM STUDENT;
+SELECT * FROM DEPARTMENT;
+
+
+SELECT S.NAME, S.DEPTNO1, D.DNAME
+FROM STUDENT S
+JOIN department D
+ON S.DEPTNO1 = d.deptno;
+
+--P254 2번
+SELECT * FROM EMP2;
+SELECT * FROM P_GRADE;
+
+SELECT * 
+FROM EMP2 E
+JOIN P_GRADE P
+ON E.POSITION = P.POSITION;
+
+
+SELECT E.NAME, E.POSITION, E.PAY, P.S_PAY, P.E_PAY
+FROM EMP2 E
+JOIN P_GRADE P
+ON E.POSITION = p.position;
+
+
+--P255 3번
+SELECT * FROM EMP2;
+SELECT * FROM p_grade;
+
+SELECT SYSDATE FROM DUAL;
+
+
+SELECT 
+NAME,
+ROUND(MONTHS_BETWEEN(SYSDATE, TO_DATE(BIRTHDAY))/12),
+POSITION CURR_POSITION
+FROM EMP2;
+
+SELECT 
+NAME,
+ROUND(MONTHS_BETWEEN(SYSDATE, TO_DATE(BIRTHDAY))/12) AGE,
+POSITION CURR_POSITION
+FROM EMP2;
+
+SELECT E.NAME, E.AGE, E.curr_position, p.position BE_POSITION
+FROM (
+    SELECT 
+    NAME,
+    ROUND(MONTHS_BETWEEN(SYSDATE, TO_DATE(BIRTHDAY))/12-12) AGE,
+    POSITION CURR_POSITION
+    FROM EMP2) E 
+JOIN P_GRADE P
+ON E.AGE>=P.S_AGE AND E.AGE<=P.E_AGE
+ORDER BY AGE;
+
+
+
+--p255 4번
+SELECT * FROM CUSTOMER;
+SELECT * FROM GIFT;
+
+SELECT GNAME, POINT
+FROM CUSTOMER
+WHERE POINT>=600001;
+
+SELECT G_START, GNAME
+FROM GIFT
+WHERE GNAME='Notebook';
+
+SELECT C.GNAME CUST_NAME, C.POINT, G.gname GIFT_NAME 
+FROM CUSTOMER C
+JOIN (
+    SELECT G_START, GNAME
+    FROM GIFT
+    WHERE GNAME='Notebook') G
+ON C.POINT>=G.G_START;
+

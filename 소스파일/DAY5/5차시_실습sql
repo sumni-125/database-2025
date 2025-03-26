@@ -1,80 +1,14 @@
+
 --연습문제
---P420 1,2,3
---4번풀기
+--P420 1,2,3,4번풀기
 --교재 430 연습문제3 풀기( 단일행서브쿼리 )
 --교재 434 연습문제1 풀기( 다중행서브쿼리 )
 --쿼리 연습하기 실습문제
 
---429 연습문제 1번
- SELECT * FROM STUDENT;
- SELECT * FROM DEPARTMENT;
- 
- SELECT DEPTNO1
- FROM STUDENT
- WHERE NAME = 'Anthony Hopkins';
- 
- SELECT S.NAME, D.DNAME
- FROM STUDENT S
- JOIN DEPARTMENT D
- ON s.deptno1 = d.deptno;
- 
- SELECT S.NAME, D.DNAME
- FROM STUDENT S
- JOIN DEPARTMENT D
- ON s.deptno1 = d.deptno
- WHERE S.DEPTNO1 = (SELECT DEPTNO1
-     FROM STUDENT
-     WHERE NAME = 'Anthony Hopkins');
- 
- --429 연습문제2번
- SELECT * FROM PROFESSOR;
- SELECT * FROM DEPARTMENT;
- 
- SELECT HIREDATE
- FROM PROFESSOR
- WHERE NAME = 'Meg Ryan';
- 
- SELECT P.NAME, d.dname, p.hiredate
- FROM DEPARTMENT D
- JOIN PROFESSOR P
- ON d.deptno = p.deptno;
- 
- SELECT P.NAME, p.hiredate, d.dname
- FROM DEPARTMENT D
- JOIN PROFESSOR P
- ON d.deptno = p.deptno
- WHERE p.hiredate > (SELECT HIREDATE
- FROM PROFESSOR
- WHERE NAME = 'Meg Ryan');
- 
- --430 연습문제3번
- SELECT * FROM student;
- 
- SELECT AVG(WEIGHT) FROM STUDENT WHERE DEPTNO1 = 201;
- 
- SELECT NAME, WEIGHT
- FROM STUDENT
- WHERE WEIGHT > (SELECT AVG(WEIGHT) FROM STUDENT WHERE DEPTNO1 = 201);
- 
- --434 연습문제1
- SELECT * FROM EMP2;
- 
- SELECT NAME, POSITION, PAY
- FROM EMP2;
- 
- SELECT MIN(PAY)
- FROM EMP2
- WHERE POSITION = 'Section head';
- 
- SELECT NAME, POSITION, TO_CHAR(PAY,'$999,999,999')
- FROM EMP2
- WHERE PAY > ANY(SELECT MIN(PAY)
- FROM EMP2
- WHERE POSITION = 'Section head')
- ORDER BY 3 DESC;
- 
- --420 연습문제1
- 
+
+
+
+ --420 연습문제1 
  SELECT * FROM professor;
  SELECT * FROM DEPARTMENT;
  
@@ -91,7 +25,13 @@
  
  SELECT * FROM V_PROF_DEPT2;
  
+ 
+ 
+ 
+
+ 
  --420 연습문제 2
+ 
  SELECT * FROM STUDENT;
  SELECT * FROM DEPARTMENT;
  
@@ -106,28 +46,8 @@
  ON S.DEPTNO1 = D.DEPTNO
  GROUP BY D.DNAME;
  
- --인라인뷰사용
  
- SELECT DEPTNO1, HEIGHT, WEIGHT
- FROM STUDENT;
-  
- 
- SELECT *
- FROM (SELECT DEPTNO1, MAX(HEIGHT), MAX(WEIGHT)
- FROM STUDENT
- GROUP BY DEPTNO1) S
- JOIN DEPARTMENT D
- ON S.DEPTNO1 = D.DEPTNO;
- 
- SELECT D.DNAME, S.MAX_HEIGHT, S.MAX_WEIGHT
- FROM (SELECT DEPTNO1, MAX(HEIGHT) AS MAX_HEIGHT, MAX(WEIGHT)AS MAX_WEIGHT
- FROM STUDENT
- GROUP BY DEPTNO1) S
- JOIN DEPARTMENT D
- ON S.DEPTNO1 = D.DEPTNO;
- 
- 
- --420 연습문제3
+--420 연습문제3
  
  SELECT NAME, HEIGHT
  FROM STUDENT;
@@ -169,7 +89,10 @@
  ON S.DEPTNO1 = M.DEPTNO1
  WHERE M.MAX_HEIGHT=S.HEIGHT;
  
+ 
+ 
  --421 연습문제4
+ 
  SELECT * FROM STUDENT;
  
  SELECT GRADE, NAME, HEIGHT
@@ -195,6 +118,40 @@
  ORDER BY 1 ASC
  ;
  
+ --동우님풀이
+ -- 420p 4번문제
+SELECT * FROM student ORDER BY grade;
+
+-- 조회
+SELECT grade, name, height
+FROM student;
+
+-- 학년별 키 평균
+SELECT grade, avg(height)
+FROM student
+GROUP BY grade;
+
+-- 평균 키보다 큰 사람 조회
+SELECT grade, name, height
+FROM STUDENT
+WHERE height > (SELECT avg(height)
+FROM student)
+ORDER BY grade;
+
+-- 학년별 평균키 보다 큰 사람 조회
+SELECT grade, avg(height)
+FROM student
+GROUP BY grade;
+
+SELECT s.grade, s.name, s.HEIGHT, a.AVG_HEIGHT
+FROM (SELECT grade, avg(height)   avg_height
+FROM student
+GROUP BY grade) A  
+JOIN student  s
+ON  a.grade =s.grade  AND     s.height  >= a.avg_height
+ORDER BY 1;
+
+
  --421 연습문제5
  
  SELECT RANK() OVER(ORDER BY PAY DESC)RANKING, NAME, PAY
@@ -207,6 +164,107 @@
     FROM PROFESSOR
  )
  WHERE RANKING<6;
+ 
+ 
+--429 연습문제 1번
+
+ SELECT * FROM STUDENT;
+ SELECT * FROM DEPARTMENT;
+ 
+ SELECT DEPTNO1
+ FROM STUDENT
+ WHERE NAME = 'Anthony Hopkins';
+ 
+ SELECT S.NAME, D.DNAME
+ FROM STUDENT S
+ JOIN DEPARTMENT D
+ ON s.deptno1 = d.deptno;
+ 
+ SELECT S.NAME, D.DNAME
+ FROM STUDENT S
+ JOIN DEPARTMENT D
+ ON s.deptno1 = d.deptno
+ WHERE S.DEPTNO1 = (SELECT DEPTNO1
+     FROM STUDENT
+     WHERE NAME = 'Anthony Hopkins');
+ 
+ 
+ --429 연습문제2번
+ 
+ SELECT * FROM PROFESSOR;
+ SELECT * FROM DEPARTMENT;
+ 
+ SELECT HIREDATE
+ FROM PROFESSOR
+ WHERE NAME = 'Meg Ryan';
+ 
+ SELECT P.NAME, d.dname, p.hiredate
+ FROM DEPARTMENT D
+ JOIN PROFESSOR P
+ ON d.deptno = p.deptno;
+ 
+ SELECT P.NAME, p.hiredate, d.dname
+ FROM DEPARTMENT D
+ JOIN PROFESSOR P
+ ON d.deptno = p.deptno
+ WHERE p.hiredate > (SELECT HIREDATE
+ FROM PROFESSOR
+ WHERE NAME = 'Meg Ryan');
+ 
+ 
+ --430 연습문제3번
+ 
+ SELECT * FROM student;
+ 
+ SELECT AVG(WEIGHT) FROM STUDENT WHERE DEPTNO1 = 201;
+ 
+ SELECT NAME, WEIGHT
+ FROM STUDENT
+ WHERE WEIGHT > (SELECT AVG(WEIGHT) FROM STUDENT WHERE DEPTNO1 = 201);
+ 
+ 
+ --434 연습문제1
+ 
+ SELECT * FROM EMP2;
+ 
+ SELECT NAME, POSITION, PAY
+ FROM EMP2;
+ 
+ SELECT MIN(PAY)
+ FROM EMP2
+ WHERE POSITION = 'Section head';
+ 
+ SELECT NAME, POSITION, TO_CHAR(PAY,'$999,999,999')
+ FROM EMP2
+ WHERE PAY > ANY(SELECT MIN(PAY)
+ FROM EMP2
+ WHERE POSITION = 'Section head')
+ ORDER BY 3 DESC;
+ 
+ 
+ 
+ --인라인뷰사용
+ 
+ SELECT DEPTNO1, HEIGHT, WEIGHT
+ FROM STUDENT;
+  
+ 
+ SELECT *
+ FROM (SELECT DEPTNO1, MAX(HEIGHT), MAX(WEIGHT)
+ FROM STUDENT
+ GROUP BY DEPTNO1) S
+ JOIN DEPARTMENT D
+ ON S.DEPTNO1 = D.DEPTNO;
+ 
+ SELECT D.DNAME, S.MAX_HEIGHT, S.MAX_WEIGHT
+ FROM (SELECT DEPTNO1, MAX(HEIGHT) AS MAX_HEIGHT, MAX(WEIGHT)AS MAX_WEIGHT
+ FROM STUDENT
+ GROUP BY DEPTNO1) S
+ JOIN DEPARTMENT D
+ ON S.DEPTNO1 = D.DEPTNO;
+ 
+ 
+ 
  
  --PDF 쿼리 실습문제 풀기
  
@@ -272,10 +330,18 @@ SELECT * FROM GOODS_TBL_500;
 SELECT * FROM store_tbl_500;
 SELECT * FROM sale_tbl_500;
 
+SELECT GOODS_CD 상품코드, 
+    GOODS_NM 상품명, 
+    TO_CHAR(goods_PRICE,'999,999') 판매단가, 
+    TO_CHAR(COST,'999,999') "(상품)원가", 
+    TO_CHAR(IN_DATE,'YYYY-MM-DD') 입고일자
+FROM GOODS_TBL_500;
+
 --SALE_FG 1:판매, 2:취소
 --PAY_TYPE 01:현금, 02:카드
 --점포별 매출현황
 --점포명 현금매출 카드매출 총매출
+
 SELECT * FROM store_tbl_500;
 SELECT * FROM sale_tbl_500;
 
@@ -329,11 +395,25 @@ GROUP BY STORE_NM
 SELECT STORE_NM,
 SUM(DECODE (PAY_TYPE,'01',DECODE(SALE_FG,'1',SALE_CNT * GOODS_PRICE,-SALE_CNT * GOODS_PRICE),0)) AS 현금매출,
 SUM(DECODE (PAY_TYPE,'02',DECODE(SALE_FG,'1',SALE_CNT * GOODS_PRICE,-SALE_CNT * GOODS_PRICE),0)) AS 카드매출,
-SUM(DECODE (SALE_FG,'1',SALE_CNT * GOODS_PRICE,-SALE_CNT * GOODS_PRICE)) AS 총매출
+SUM(DECODE (SALE_FG,'1',SALE_CNT * GOODS_PRICE,-SALE_CNT* GOODS_PRICE)) AS 총매출
 FROM SELECT_TBL_500
 GROUP BY STORE_NM
 HAVING SUM(DECODE (SALE_FG,'1',SALE_CNT * GOODS_PRICE,-SALE_CNT * GOODS_PRICE)) > 0
 ;
+
+select     st.store_nm,  
+             sum(decode(s.pay_type,'01', s.sale_cnt*g.goods_price , 0) )   cash, 
+             sum( decode(s.pay_type,'02', s.sale_cnt*g.goods_price, 0 ) )   card,
+             sum(decode(s.sale_fg,'2', s.sale_cnt*g.goods_price, 0 ) )   취소,
+             sum(s.sale_cnt*g.goods_price)  total,
+               sum(s.sale_cnt*g.goods_price)   -   sum(decode(s.sale_fg,'2', s.sale_cnt*g.goods_price, 0 ) )    "판매금액"
+from        sale_tbl_500 s
+join         goods_tbl_500 g
+on          g.goods_cd = s.goods_cd
+join         store_tbl_500 st
+on          st.store_cd = s.store_cd
+group by  st.store_nm;
+
 
 SELECT * FROM GOODS_TBL_500;
 SELECT * FROM store_tbl_500;
@@ -357,17 +437,6 @@ WHERE ST.STORE_CD = 'A001';
 
 
 
-select     st.store_nm,  
-             sum(decode(s.pay_type,'01', s.sale_cnt*g.goods_price , 0) )   cash, 
-             sum( decode(s.pay_type,'02', s.sale_cnt*g.goods_price, 0 ) )   card,
-             sum(decode(s.sale_fg,'2', s.sale_cnt*g.goods_price, 0 ) )   취소,
-             sum(s.sale_cnt*g.goods_price)  total,
-               sum(s.sale_cnt*g.goods_price)   -   sum(decode(s.sale_fg,'2', s.sale_cnt*g.goods_price, 0 ) )    "판매금액"
-from        sale_tbl_500 s
-join         goods_tbl_500 g
-on          g.goods_cd = s.goods_cd
-join         store_tbl_500 st
-on          st.store_cd = s.store_cd
-group by  st.store_nm;
+
 
 

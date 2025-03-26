@@ -1,0 +1,39 @@
+create table tbl_court_202301(
+court_no varchar2(4) not null primary key,
+use char(1)
+);
+insert into tbl_court_202301 values('C001','N');
+insert into tbl_court_202301 values('C002','N');
+insert into tbl_court_202301 values('C003','N');
+insert into tbl_court_202301 values('C004','N');
+insert into tbl_court_202301 values('C005','N');
+insert into tbl_court_202301 values('C006','N');
+insert into tbl_court_202301 values('C007','N');
+insert into tbl_court_202301 values('C008','N');
+insert into tbl_court_202301 values('C009','N');
+
+create table tbl_resv_202301(
+resv_no char(8) not null primary key,
+resv_date char(8),
+cust_no varchar2(4),
+court_no varchar2(4)
+);
+insert into tbl_resv_202301 values('20230001','20230221','1001','C005');
+insert into tbl_resv_202301 values('20230002','20230221','1002','C004');
+insert into tbl_resv_202301 values('20230003','20230221','1003','C003');
+insert into tbl_resv_202301 values('20230004','20230221','1004','C002');
+insert into tbl_resv_202301 values('20230005','20230221','1005','C001');
+insert into tbl_resv_202301 values('20230006','20230221','1005','C001');
+insert into tbl_resv_202301 values('20230007','20230221','1005','C001');
+
+create table tbl_cust_202301(
+cust_no varchar2(4) not null primary key,
+cust_name varchar2(10),
+tel varchar2(11)
+);
+
+insert into tbl_cust_202301 values('1001','김선수','01011112222');
+insert into tbl_cust_202301 values('1002','이선수','01011113333');
+insert into tbl_cust_202301 values('1003','박선수','01011114444');
+insert into tbl_cust_202301 values('1004','한선수','01011115555');
+insert into tbl_cust_202301 values('1005','채선수','01011116666');
