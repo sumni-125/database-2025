@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>내가 쓴 알림장</title>
+</head>
+<body>
+    <h2>📄 내가 쓴 알림장 목록</h2>
+
+    {% if notices %}
+        <ul>
+            {% for notice in notices %}
+                <li>
+                    <a href="{{ url_for('notice_detail', notices_cd=notice[0]) }}">
+                        [{{ notice[3] }}반] {{ notice[1] }}
+                    </a> - {{ notice[2] }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>작성한 알림장이 없습니다.</p>
+    {% endif %}
+
+    <p><a href="/teacher_dashboard">← 알림장 작성하기</a></p>
+</body>
+</html>

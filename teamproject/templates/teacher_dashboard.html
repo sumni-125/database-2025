@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>알림장 작성</title>
+</head>
+<body>
+    <h2>📚 알림장 작성 (관리자 전용)</h2>
+    <form method="POST" action="/teacher_dashboard">
+        <label>제목:</label><br>
+        <input type="text" name="title" required><br><br>
+
+        <label>내용:</label><br>
+        <textarea name="desc" rows="5" cols="50" required></textarea><br><br>
+
+        <label>대상 반 (class_cd):</label><br>
+        <input type="text" name="class_cd" required><br><br>
+
+        <input type="submit" value="작성하기">
+    </form>
+
+    <p><a href="/">← 메인으로 돌아가기</a></p>
+</body>
+</html>
