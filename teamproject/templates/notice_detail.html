@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>알림장 상세</title>
+</head>
+<body>
+    <h2>📄 {{ notice.title }}</h2>
+    <p><strong>작성자:</strong> {{ notice.teacher_cd }}</p>
+    <p><strong>작성일:</strong> {{ notice.date }}</p>
+    <p><strong>내용:</strong><br>{{ notice.notices_desc }}</p>
+
+    <hr>
+    <h3>💬 댓글</h3>
+    {% if replies %}
+        <ul>
+            {% for reply in replies %}
+                <li>[{{ reply.date }}] {{ reply.name }}: {{ reply.replies_desc }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>댓글이 없습니다.</p>
+    {% endif %}
+
+    {% if session.get('role') in ['student', 'parent'] %}
+    <hr>
+    <form method="POST" action="{{ url_for('reply_write', notices_cd=notice.notices_cd) }}">
+        <label>댓글 쓰기:</label><br>
+        <textarea name="replies_desc" required></textarea><br><br>
+        <input type="submit" value="댓글 등록">
+    </form>
+    {% endif %}
+
+    <p><a href="{{ url_for('notices_list', class_cd=notice.class_cd) }}">← 알림장 목록으로</a></p>
+</body>
+</html>

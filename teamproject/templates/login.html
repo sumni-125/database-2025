@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <title>전자 알림장 로그인</title>
+    <style>
+        H2, label{
+            font-family: "Lilita One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        * {
+            padding: 0px;
+            margin: 0px;
+
+            font-family: "Lilita One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .wrap {
+
+            height: 100vh;
+
+            margin: 0 auto;
+            padding: 200px;
+            box-sizing: border-box;
+
+            background-image: url("./imges/로그인배경.jpg");
+            background-position: center;
+            background-size: cover;
+
+
+            display: flex;
+            justify-content: center;
+        }
+
+        .login_wrap {
+            padding: 50px 75px 50px 75px;
+            width: 450px;
+            height: 600px;
+
+            box-sizing: border-box;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.82);
+            border-radius: 10px;
+
+            border: 2px solid rgba(107, 107, 107, 0.486);
+            /*box-shadow: 3px 3px 3px 3px rgb(100, 100, 100);*/
+            
+
+        }
+
+        .inputbox {
+            width: 300px;
+            box-sizing: border-box;
+            border: none;
+            padding: 15px;
+            margin-top: 10px;
+
+        }
+
+        .log-btn{
+            background-color: rgb(218, 235, 255);
+            box-sizing: border-box;
+
+            font-family: "Lilita One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            color: rgb(52, 37, 30);
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        p {
+
+            box-sizing: border-box;
+            margin-top: 15px;
+            padding: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        label{
+            display: block;
+            padding: 10px;
+            box-sizing: border-box;
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+        <div class="login_wrap">
+            <div class="login">
+                <h2>login</h2>
+                <form method="POST" action="/login">
+                    <label>id:</label>
+                    <input class="inputbox" type="text" name="id"><br><br>
+
+                    <label>password:</label>
+                    <input class="inputbox" type="password" name="pw"><br><br>
+
+                    <label>type:</label>
+                    <select class="inputbox" name="role">
+                        <option value="student">학생</option>
+                        <option value="parent">학부모</option>
+                        <option value="teacher">선생님</option>
+                    </select><br><br>
+
+                    <input  class="inputbox log-btn" type="submit" value="Login">
+                </form>
+
+                <p><br>signup:
+                    <a href="/signup_student">student</a> |
+                    <a href="/signup_parent">parents</a>
+                </p>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

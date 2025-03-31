@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>학생 회원가입</title>
+</head>
+<body>
+    <h2>학생 회원가입</h2>
+    <form method="POST" action="/signup_student">
+        <label>아이디:</label><br>
+        <input type="text" name="id" required><br><br>
+
+        <label>비밀번호:</label><br>
+        <input type="password" name="pw" required><br><br>
+
+        <label>이름:</label><br>
+        <input type="text" name="name" required><br><br>
+
+        <label>학년:</label><br>
+        <input type="text" name="grade" required><br><br>
+
+        <label>반:</label><br>
+        <input type="text" name="ban" required><br><br>
+
+        <label>번호:</label><br>
+        <input type="text" name="class_no" required><br><br>
+
+        <input type="submit" value="회원가입">
+    </form>
+
+    <p><a href="/">← 로그인으로 돌아가기</a></p>
+</body>
+</html>
