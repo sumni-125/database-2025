@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알림장 상세</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            font-family: 'S-CoreDream-3Light';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            text-decoration: none;
+            color: black;
+        }
+
+        .wrap {
+            height: 100vh;
+            margin: 0 auto;
+            padding-top: 100px;
+            box-sizing: border-box;
+            background-image: url("https://i.pinimg.com/736x/09/c0/b3/09c0b3b380e3390aae26c33e32a03f43.jpg");
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+        }
+
+        .notice_wrap {
+            width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin: 0 auto;
+            padding: 30px 15px;
+            background-color: rgba(255, 255, 255, 0.932);
+            border-radius: 25px;
+            border: 2px solid rgba(107, 107, 107, 0.144);
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+
+        .detail_wrap {
+            padding: 20px 0px;
+            box-sizing: border-box;
+            height: 350px;
+        }
+
+        .notice_detail {
+            padding: 10px 0;
+            font-size: 20px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .notice_date {
+            padding: 10px 0;
+        }
+
+        h3 {
+            width: 180px;
+        }
+
+        .replies_wrap {
+            height: 250px;
+            padding: 20px 0;
+        }
+
+        li {
+            list-style: none;
+            padding: 10px 0;
+        }
+
+        .write_reply {
+            padding: 20px 0;
+        }
+
+        .textbox {
+            width: 350px;
+            height: 80px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: none;
+            margin-bottom: 10px;
+        }
+
+        .reply_btn {
+            width: 350px;
+            height: 45px;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: rgb(218, 235, 255);
+            border: none;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="notice_wrap">
+            <h1>{{ notice.title }}</h1>
+            <div class="detail_wrap">
+                <br><br>
+                <div class="notice_detail">
+                    {{ notice.description }}
+                </div>
+                <div class="notice_date">
+                    <strong>작성일:</strong> {{ notice.date }}
+                </div>
+            </div>
+            <h3>댓글💬</h3>
+            <div class="replies_wrap">
+
+                {% if replies %}
+                <ul>
+                    {% for reply in replies %}
+                    <li>{{ reply.name }}: {{ reply.replies_description }} ({{ reply.date }})</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>댓글이 없습니다.</p>
+                {% endif %}
+
+                {% if session['role'] == 'student' or session['role'] == 'parent' %}
+                <form class="write_reply" method="POST"
+                    action="{{ url_for('reply_write', notices_cd=notice.notices_cd) }}">
+                    <textarea class="textbox" name="reply_content" placeholder="댓글을 입력하세요" required></textarea><br>
+                    <button class="reply_btn" type="submit">댓글 작성</button>
+                </form>
+                {% endif %}
+                <p><a class="back-btn" href="javascript:history.back()">← 뒤로가기</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

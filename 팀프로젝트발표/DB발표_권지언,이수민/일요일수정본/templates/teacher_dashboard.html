@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알림장 작성</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            font-family: 'S-CoreDream-3Light';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            text-decoration: none;
+            color: black;
+        }
+       
+        .wrap {
+            height: 100vh;
+            margin: 0 auto;
+            padding-top: 100px;
+            box-sizing: border-box;
+            background-image: url("https://i.pinimg.com/736x/09/c0/b3/09c0b3b380e3390aae26c33e32a03f43.jpg");
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dashboard_wrap{
+            width: 500px;
+            height: 700px;
+            margin: 0 auto;
+            padding: 50px 15px;
+            background-color: rgba(255, 255, 255, 0.932);
+            border-radius: 25px;
+            border: 2px solid rgba(107, 107, 107, 0.144);
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        form{
+            margin-top: 15px ;
+        }
+
+        label{
+            display: inline-block;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        .title_box{
+            width: 300px;
+            box-sizing: border-box;
+            border: 1px solid rgba(107, 107, 107, 0.144);
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .submit_btn{
+            width: 300px;
+            background-color: rgb(218, 235, 255);
+            border: 2px solid rgba(107, 107, 107, 0.144);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            display: inline-block;
+            font-size: 16px;
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="dashboard_wrap">
+            <h2>📚 Write Notice (Administrator🧑‍💼)</h2>
+
+            <form action="/teacher_dashboard" method="POST">
+                <label>title:</label><br />
+                <input class="title_box" name="title" required="" type="text" /><br /><br />
+                <label>description:</label><br />
+                <textarea class="title_box" cols="50" name="description" required="" rows="5"></textarea><br /><br />
+                <input class="submit_btn inputbox" type="submit" value="submit" />
+            </form>
+
+            <p><a href="/notices_list">← My List</a></p>
+            <p><a class="back-btn" href="javascript:history.back()">← 뒤로가기</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전자 알림장 로그인</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            font-family: 'S-CoreDream-3Light';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            text-decoration: none;
+            color: black;
+        }
+
+        H1 {
+            padding-bottom: 15px;
+        }
+
+        .wrap {
+            height: 100vh;
+            padding: 100px;
+            background-image: url("https://i.pinimg.com/736x/46/66/be/4666bee6ca72a45b6407463d3c846484.jpg");
+            background-position: center;
+            background-size: cover;
+            box-sizing: border-box;
+        }
+
+        .login_wrap {
+            padding: 50px 100px;
+            width: 500px;
+            height: 700px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.82);
+            border-radius: 25px;
+            border: 2px solid rgba(107, 107, 107, 0.144);
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+        }
+
+        .inputbox {
+            width: 300px;
+            box-sizing: border-box;
+            border: 1px solid rgba(107, 107, 107, 0.144);
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .log-btn {
+            background-color: rgb(218, 235, 255);
+            box-sizing: border-box;
+        }
+
+        p {
+            box-sizing: border-box;
+            margin-top: 15px;
+            padding: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+            padding-left: 10px;
+        }
+
+        label {
+            display: block;
+            padding-top: 10px;
+            box-sizing: border-box;
+            width: 300px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    {% if error == 'fail' %}
+    <script>
+        alert("로그인 실패: 아이디 또는 비밀번호를 확인하세요.");
+    </script>
+    {% endif %}
+
+    <div class="wrap">
+        <div class="login_wrap">
+            <h1>login</h1>
+            <form method="POST" action="/login">
+                <label>id</label>
+                <input class="inputbox" type="text" name="id"><br><br>
+                <label>password</label>
+                <input class="inputbox" type="password" name="pw"><br><br>
+                <label>type</label>
+                <select class="inputbox" name="role">
+                    <option value="student">student</option>
+                    <option value="parent">parents</option>
+                    <option value="teacher">teacher</option>
+                </select><br><br>
+                <input class="inputbox log-btn" type="submit" value="Login">
+            </form>
+
+            <p><br>signup :
+                <a href="/signup_student">student</a>
+                <a href="/signup_parent">parents</a>
+            <p><a class="back-btn" href="javascript:history.back()">← 뒤로가기</a></p>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

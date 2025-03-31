@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알림장 목록</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            font-family: 'S-CoreDream-3Light';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            text-decoration: none;
+            color: black;
+        }
+
+
+        .wrap {
+            height: 100vh;
+            box-sizing: border-box;
+            background-image: url("https://i.pinimg.com/736x/09/c0/b3/09c0b3b380e3390aae26c33e32a03f43.jpg");
+            background-position: center;
+            background-size: cover;
+            padding-top: 100px;
+        }
+
+        .list_wrap {
+            width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin: 0 auto;
+            padding: 30px 15px;
+            background-color: rgba(255, 255, 255, 0.932);
+            border-radius: 25px;
+            border: 2px solid rgba(107, 107, 107, 0.144);
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+
+        .no_list {
+            list-style: none;
+        }
+
+        h1 {
+            padding-top: 20px;
+            padding-bottom: 30px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 0;
+            font-size: 20px;
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="list_wrap">
+            <h1>알림장 목록📝</h1>
+            {% if notices %}
+            <ul>
+                {% for notice in notices %}
+                <li class="no_list">
+                    <a href="{{ url_for('notice_detail', notices_cd=notice[0]) }}">
+                        {{ notice[1] }} (작성일: {{ notice[2] }})
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>해당 반에 등록된 알림장이 없습니다.</p>
+            {% endif %}
+            <p><a class="back-btn" href="javascript:history.back()">← 뒤로가기</a></p>
+        </div>
+    </div>
+</body>
+
+</html>

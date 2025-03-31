@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>join parent</title>
+    <style>
+        
+        * {
+            padding: 0px;
+            margin: 0px;
+            font-family: 'S-CoreDream-3Light';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            text-decoration: none;
+            color: black;
+        }
+
+        label{
+            font-size: 18px;
+        }
+
+        .wrap {
+            height: 100vh; 
+            padding: 70px;
+            background-image: url("https://i.pinimg.com/736x/46/66/be/4666bee6ca72a45b6407463d3c846484.jpg");
+            background-position: center;
+            background-size: cover;
+            box-sizing: border-box;
+        }
+
+        .signup_wrap {
+            padding:30px 100px;
+            width: 500px;
+            height: 800px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.82);
+            border-radius: 25px;
+            border: 2px solid rgba(107, 107, 107, 0.144);
+            text-align: center;
+        }
+
+        form{
+            margin-top: 15px ;
+        }
+
+        .inputbox {
+            width: 300px;
+            box-sizing: border-box;
+            border: 1px solid rgba(107, 107, 107, 0.144);
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        h4{
+            margin-bottom: 20px;
+        }
+
+        .sign_btn{
+            background-color: rgb(218, 235, 255);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="signup_wrap">
+            <h2>sign up parents</h2>
+            <form method="POST" action="/signup_parent">
+                <label>id:</label><br>
+                <input class="inputbox" type="text" name="id" required><br><br>
+
+                <label>password:</label><br>
+                <input class="inputbox" type="password" name="pw" required><br><br>
+
+                <label>phone (010-0000-0000):</label><br>
+                <input class="inputbox" type="text" name="tel" required><br><br>
+
+                <h4>-- student info --</h4>
+                <label>grade:</label><br>
+                <input class="inputbox" type="text" name="grade" required><br><br>
+
+                <label>class:</label><br>
+                <input class="inputbox" type="text" name="ban" required><br><br>
+
+                <label>no:</label><br>
+                <input class="inputbox" type="text" name="class_no" required><br><br>
+
+                <input class="sign_btn inputbox" type="submit" value="sign up">
+            </form>
+            <p><a href="/">← Login</a></p>
+        </div>
+    </div>
+</body>
+</html>

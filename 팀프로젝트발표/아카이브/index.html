@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>낚시터 관리 시스템</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- 헤더 -->
+  <header class="header">
+    <div class="header-title">
+      <span class="fish-icon">🎣</span>
+      <h1>낚시터 관리 시스템<span class="subtitle">시원한 호수가에서 즐기는 낚시와 식사</span></h1>
+    </div>
+    <nav class="nav">
+      <a href="#" class="nav-link active" data-page="menu">메뉴</a>
+      <a href="#" class="nav-link" data-page="booking">좌대 예약</a>
+      <a href="#" class="nav-link" data-page="participation">대회 참가</a>
+    </nav>
+  </header>
+
+  <!-- 메인 컨테이너 -->
+  <div class="container">
+    <!-- 메뉴 페이지 -->
+    <div id="menu-page" class="page" style="display: block;">
+      <h2 class="page-title">낚시터 식당 메뉴</h2>
+      <p class="subtitle">낚시 후 즐기는 맛있는 식사</p>
+
+      <div class="notice-banner">
+        <span class="notice-icon">📢</span>
+        <p>낚시 후 신선한 재료로 요리해 드립니다! 직접 잡은 물고기로 요리도 가능합니다.</p>
+      </div>
+
+      <!-- 탭 버튼 -->
+      <div class="tabs">
+        <button class="tab-button active" data-category="전체">전체</button>
+        <button class="tab-button" data-category="한식">한식</button>
+        <button class="tab-button" data-category="양식">양식</button>
+      </div>
+
+      <!-- 검색 바 -->
+      <div class="search-bar">
+        <input type="text" class="search-input" id="search-input" placeholder="메뉴 검색...">
+        <button class="search-button" id="search-button">검색</button>
+      </div>
+
+      <!-- 메뉴 컨테이너 -->
+      <div class="menu-container" id="menu-container">
+        <!-- 메뉴 카드는 JavaScript로 동적 생성 -->
+      </div>
+    </div>
+
+    <!-- 좌대 예약 페이지 -->
+    <div id="booking-page" class="page">
+      <h2 class="page-title">좌대 예약 현황</h2>
+      <p class="subtitle">낚시터 좌대 예약 정보와 통계</p>
+
+      <!-- 필터 -->
+      <div class="booking-filters">
+        <div class="filter-group">
+          <label for="fishermen-filter">낚시꾼 필터</label>
+          <select id="fishermen-filter">
+            <option value="">전체 낚시꾼</option>
+            <!-- 옵션은 JavaScript로 동적 생성 -->
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="platform-filter">좌대 필터</label>
+          <select id="platform-filter">
+            <option value="">전체 좌대</option>
+            <!-- 옵션은 JavaScript로 동적 생성 -->
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="booking-search">검색</label>
+          <input type="text" id="booking-search" placeholder="검색어 입력...">
+        </div>
+      </div>
+
+      <!-- 통계 카드 -->
+      <h3 class="section-title">예약 통계</h3>
+      <div class="stats-container" id="stats-container">
+        <div class="stat-card">
+          <p class="stat-title">총 예약 수</p>
+          <p class="stat-value" id="total-bookings">0</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-title">총 예약 일수</p>
+          <p class="stat-value" id="total-days">0</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-title">총 예약 금액</p>
+          <p class="stat-value" id="total-amount">0원</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-title">인기 좌대</p>
+          <p class="stat-value" id="popular-platform">없음</p>
+        </div>
+      </div>
+
+      <!-- 좌대 맵 -->
+      <h3 class="section-title">좌대 맵</h3>
+      <div class="platform-map" id="platform-map">
+        <!-- 좌대와 호수는 JavaScript로 동적 생성 -->
+      </div>
+
+      <!-- 예약 목록 -->
+      <h3 class="section-title">예약 목록</h3>
+      <div class="bookings-container">
+        <table class="bookings-table" id="bookings-table">
+          <thead>
+            <tr>
+              <th>낚시꾼 코드</th>
+              <th>낚시꾼 이름</th>
+              <th>예약 코드</th>
+              <th>좌대 번호</th>
+              <th>좌대 가격</th>
+              <th>예약 일수</th>
+              <th>총 가격</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 예약 목록은 JavaScript로 동적 생성 -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 차트 -->
+      <h3 class="section-title">예약 현황 차트</h3>
+      <div class="chart-container">
+        <div class="chart-card">
+          <canvas id="fisherman-chart"></canvas>
+        </div>
+        <div class="chart-card">
+          <canvas id="platform-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- 대회 참가 페이지 -->
+    <div id="participation-page" class="page">
+      <h2 class="page-title">낚시 대회 참가 및 상품 수령</h2>
+      <p class="subtitle">낚시 대회 참가자 상품 수령 현황</p>
+
+      <!-- 필터 -->
+      <div class="participation-filters">
+        <div class="filter-group">
+          <label for="receive-status-filter">수령 상태</label>
+          <select id="receive-status-filter">
+            <option value="all">전체</option>
+            <option value="received">수령 완료</option>
+            <option value="not-received">미수령</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="participation-search">검색</label>
+          <input type="text" id="participation-search" placeholder="검색어 입력...">
+        </div>
+      </div>
+
+      <!-- 참가 목록 -->
+      <div class="bookings-container">
+        <table class="participation-table" id="participation-table">
+          <thead>
+            <tr>
+              <th>낚시꾼 코드</th>
+              <th>낚시꾼 이름</th>
+              <th>참가 날짜</th>
+              <th>잡은 물고기</th>
+              <th>상품</th>
+              <th>수령 상태</th>
+              <th>수령 날짜</th>
+              <th>액션</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 참가 목록은 JavaScript로 동적 생성 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-info">
+        <p>주소: 경기도 가평군 청평면 호반로 1234</p>
+        <p>전화번호: 031-123-4567</p>
+        <p>&copy; 2023 낚시터 관리 시스템. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript 파일 -->
+  <script src="data/bookingData.js"></script>
+  <script src="data/menuData.js"></script>
+  <script src="data/participationData.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html> 
