@@ -56,3 +56,5 @@ INSERT INTO PAYMENT_TBL1 (O_NO, P_STATUS, P_METHOD) VALUES (10005, 1, 2);
 
 COMMIT;
 
+
+select  * from membertbl11;
